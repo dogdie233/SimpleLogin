@@ -1,0 +1,14 @@
+name: SimpleLogin
+version: 1.0.1
+main: dogdie233.bukkit.simpleLogin.SimpleLogin
+author: dogdie233
+commands:
+  login:
+    aliases: [l]
+    description: "Login your account."
+  register:
+    aliases: [reg]
+    description: "Register your account."
+  changePassword:
+    aliases: [changePass]
+    description: "Change your account password."

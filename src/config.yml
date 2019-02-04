@@ -1,0 +1,51 @@
+#使用 §(Alt + 小键盘167)+颜色代码 以设置提示颜色
+#只有沙雕狗带才会把多语言支持放到config.yml配置文件里
+#使用 "%player_name%" 代替玩家名字
+
+#第一次进入服务器时的提示信息
+firstJoinServer: "§e检测到 %player_name% 您是第一次进入服务器，请输入/register 新的密码 再输一次密码    以注册账号"
+
+#进入服务器的提示信息(注册过的用户)
+joinServer: "§e%player_name% 欢迎回来，请输入/login 密码    来登录您的账号"
+
+#登录账号成功的提示信息
+loginAccount: "§a您已成功登录账号"
+
+#注册账号成功的提示信息
+registerAccount: "§a您已成功注册账号"
+
+#玩家已登录再次输入login命令时的提示信息
+loginAgain: "§4您已经登录过了，无需再登录了"
+
+#玩家还未注册输入login/changePassword命令时的提示信息
+noRegister: "§4您还未注册，请先输入/register 新的密码 再输一次密码    以注册账号"
+
+#login使用格式错误
+loginError: "§4登录命令格式错误，请输入/login 密码    来登录您的账号"
+
+#登录账号后输入register命令的提示消息
+registerAccountAfterLogin: "§4您已经登录，无需再注册账号"
+
+#注册账号后输入register命令的提示消息
+registerAgain: "§4您已经注册过账号了，无需再注册账号"
+
+#register命令使用格式错误的提示消息
+registerError: "§4注册命令格式错误，请输入/register 新的密码 再输一次密码    以注册账号"
+
+#注册账号两次密码不相同的提示消息
+registerPasswordError: "§4两次输入的密码不同，请重新输入"
+
+#登录时密码输入错误的提示消息
+passwordError: "§4密码错误"
+
+#修改密码时旧密码输入错误的提示消息
+oldPasswordError: "§4旧密码错误"
+
+#修改密码时未登录的提示消息
+changePasswordBeforeLogin: "§4您还未登录账号，清先登录账号后再修改密码"
+
+#changePassword命令使用格式错误的提示消息
+changePasswordError: "§4修改密码命令格式错误，请输入/changePassword 旧密码 新密码    以修改密码"
+
+#修改密码成功的提示消息
+changeAccountPassword: "§a修改密码成功，请记住您的新密码"
