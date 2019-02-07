@@ -1,5 +1,6 @@
 package dogdie233.bukkit.simpleLogin;
 
+import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,7 +13,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 public class PlayerLoginCommand implements Listener, CommandExecutor {
 	@EventHandler(priority=EventPriority.LOWEST) //用来拦截除了登录插件以外的指令
     public void onPlayerCommand(PlayerCommandPreprocessEvent e) {
-        if(LoginManager.isLogin(e.getPlayer().getName())) {
+        if(LoginManager.isLogin(e.getPlayer().getUniqueId())) {
             return;
         }
         switch (e.getMessage().split(" ")[0].toLowerCase()) {
@@ -32,7 +33,6 @@ public class PlayerLoginCommand implements Listener, CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] arg) {
-		SimpleLogin.getInstance().getLogger().info(cmd.getName());
 		if(!(sender instanceof Player)) {
 			sender.sendMessage("你不是个玩家，请勿输入本命令");
 			return false;
@@ -51,11 +51,11 @@ public class PlayerLoginCommand implements Listener, CommandExecutor {
 	}
 	
 	private void loginCommand (Player p, String[] args) {
-		if (LoginManager.isLogin(p.getName())) {
+		if (LoginManager.isLogin(p.getUniqueId())) {
 			p.sendMessage(MessageSender.getFormatMessageFromConfig("loginAgain", p.getName()));
 			return;
 		}
-		if(!LoginManager.isRegistered(p.getName())) {
+		if(!LoginManager.isRegistered(p.getUniqueId())) {
             p.sendMessage(MessageSender.getFormatMessageFromConfig("noRegister", p.getName()));
             return;
         }
@@ -63,9 +63,13 @@ public class PlayerLoginCommand implements Listener, CommandExecutor {
             p.sendMessage(MessageSender.getFormatMessageFromConfig("loginError", p.getName()));
             return;
         }
-		if(LoginManager.isCorrectPassword(p.getName(), args[0])) {
-            LoginManager.setPlayerLogin(p.getName(), true);
-            p.setFlying(false);
+		if(LoginManager.isCorrectPassword(p.getUniqueId(), args[0])) {
+            LoginManager.setPlayerLogin(p.getUniqueId(), true);
+            if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR) {
+            	p.setAllowFlight(true);
+            } else {
+            	p.setAllowFlight(false);
+            }
             p.sendMessage(MessageSender.getFormatMessageFromConfig("loginAccount", p.getName()));
         } else {
         	p.sendMessage(MessageSender.getFormatMessageFromConfig("passwordError", p.getName()));
@@ -73,11 +77,11 @@ public class PlayerLoginCommand implements Listener, CommandExecutor {
 	}
 	
 	private void registerCommand (Player p, String[] args) {
-        if (LoginManager.isLogin(p.getName())) {
+        if (LoginManager.isLogin(p.getUniqueId())) {
         	p.sendMessage(MessageSender.getFormatMessageFromConfig("registerAccountAfterLogin", p.getName()));
             return;
         }
-        if (LoginManager.isRegistered(p.getName())) {
+        if (LoginManager.isRegistered(p.getUniqueId())) {
         	p.sendMessage(MessageSender.getFormatMessageFromConfig("registerAgain", p.getName()));
             return;
         }
@@ -89,18 +93,22 @@ public class PlayerLoginCommand implements Listener, CommandExecutor {
         	p.sendMessage(MessageSender.getFormatMessageFromConfig("registerPasswordError", p.getName()));
         	return;
         }
-        LoginManager.register(p.getName(), args[0]);
-        LoginManager.setPlayerLogin(p.getName(), true);
-        p.setFlying(false);
+        LoginManager.register(p.getUniqueId(), args[0]);
+        LoginManager.setPlayerLogin(p.getUniqueId(), true);
+        if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR) {
+        	p.setAllowFlight(true);
+        } else {
+        	p.setAllowFlight(false);
+        }
         p.sendMessage(MessageSender.getFormatMessageFromConfig("registerAccount", p.getName()));
     }
 	
 	private void changePassword (Player p, String[] args) {
-		if (!LoginManager.isLogin(p.getName())) {
+		if (!LoginManager.isLogin(p.getUniqueId())) {
 			p.sendMessage(MessageSender.getFormatMessageFromConfig("changePasswordBeforeLogin", p.getName()));
 			return;
 		}
-		if (!LoginManager.isRegistered(p.getName())) {
+		if (!LoginManager.isRegistered(p.getUniqueId())) {
 			p.sendMessage(MessageSender.getFormatMessageFromConfig("noRegister", p.getName()));
 			return;
 		}
@@ -108,11 +116,11 @@ public class PlayerLoginCommand implements Listener, CommandExecutor {
         	p.sendMessage(MessageSender.getFormatMessageFromConfig("changePasswordError", p.getName()));
             return;
         }
-		if (!LoginManager.isCorrectPassword(p.getName(), args[0])) {
+		if (!LoginManager.isCorrectPassword(p.getUniqueId(), args[0])) {
 			p.sendMessage(MessageSender.getFormatMessageFromConfig("passwordError", p.getName()));
 			return;
 		}
-		LoginManager.changePassword(p.getName(), args[1]);
+		LoginManager.changePassword(p.getUniqueId(), args[1]);
 		p.sendMessage(MessageSender.getFormatMessageFromConfig("changeAccountPassword", p.getName()));
 	}
 }

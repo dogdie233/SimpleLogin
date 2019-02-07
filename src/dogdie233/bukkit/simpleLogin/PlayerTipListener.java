@@ -7,8 +7,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class PlayerTipListener implements Listener {
 	@EventHandler
     private void onPlayerJoin(PlayerJoinEvent e) {
-		e.getPlayer().setFlying(true);
-        if (LoginManager.isRegistered(e.getPlayer().getName())) {
+		e.getPlayer().setAllowFlight(true);
+        if (LoginManager.isRegistered(e.getPlayer().getUniqueId())) {
         	e.getPlayer().sendMessage(MessageSender.getFormatMessageFromConfig("joinServer", e.getPlayer().getName()));
         } else {
         	e.getPlayer().sendMessage(MessageSender.getFormatMessageFromConfig("firstJoinServer", e.getPlayer().getName()));
